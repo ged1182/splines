@@ -1,2 +1,11 @@
-# splines
-Adaptive Multi-Variate Spline Regression
+# Adaptive Multi-Variate Spline Regression
+
+At a high-level, uni-variate B-splines are piecewise polynomials, where the breakpoints are determined by the **knots**. B-splines are determined by their order *k* (degree + 1) and their interior knots. The B-splines we consider in this work are open knot-sequences. In other words, for an interval <img src="https://latex.codecogs.com/svg.latex?\inline&space;\large&space;[a&space;..&space;b]" title="\large [a .. b]" /> the full knot sequence has, in addition to the interior knots, *k* copies of each of the endpoints. So for order <img src="https://latex.codecogs.com/svg.latex?\inline&space;\large&space;k=3" title="\large k=3" /> and the interior knot sequence <img src="https://latex.codecogs.com/svg.latex?\inline&space;\large&space;\boldsymbol{u}=\begin{bmatrix}0.2&space;&&space;0.5&space;\end{bmatrix}^T" title="\large \boldsymbol{u}=\begin{bmatrix}0.2 & 0.5 \end{bmatrix}^T" /> on the interval <img src="https://latex.codecogs.com/svg.latex?\inline&space;\large&space;[0&space;..&space;1]" title="\large [0 .. 1]" />, the full knot_sequence is given by <img src="https://latex.codecogs.com/svg.latex?\inline&space;\large&space;\boldsymbol{t}&space;=&space;\begin{bmatrix}0&space;&&space;0&space;&&space;0&space;&&space;0.2&space;&&space;0.5&space;&&space;1&space;&&space;1&space;&&space;1&space;\end{bmatrix}^T" title="\large \boldsymbol{t} = \begin{bmatrix}0 & 0 & 0 & 0.2 & 0.5 & 1 & 1 & 1 \end{bmatrix}^T" />. Carl De Boor gives a recursive definition of B-Splines as well as a complete treatment of their properties. At a basic level, one should note that there are $p+k$ B-splines defined on an interval [a .. b] where *k* denotes the order and *p* denotes the number of interior knots. Thus, for the example above, $p=2$ and $k=3$ and therefore, there are $p+k=5$ B-splines. A linear combinations of these B-splines forms a Spline function, which also a piecewise polynomial function. In fact, any piecewise polynomnial function can be written uniquely as a linear combination of B-splines with a suitable interior knot sequence.
+
+Below is a plot of the 5 B-Spline functions of order 3 with interior knots sequence containing 0.2 and 0.5.
+
+
+
+Now let $c=\begin{bmatrix}1&2&-2&3&4\end{bmatrix}$ be the coefficients of the B-splines. The spline function, which is linear combinations of the B-splines is shown below.
+
+
