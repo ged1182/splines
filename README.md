@@ -1,8 +1,8 @@
 # Adaptive Multi-Variate Spline Regression
-This project is the result of a Master Thesis entitled *Adaptive Multi-Variate Splines as a Meta-Model for Vehicle Safety* by George Dekermenjian submitted to mathematics department at [Technical University of Munich](https://www.ma.tum.de/) in September 2020 in partial fulfillment of the Master of Science of Mathematics in Data Science. The project was funded by a six-month contract by BMW AG division of Passive Vehicle Safety.
+This project is the result of a Master Thesis entitled *Adaptive Multi-Variate Splines as a Meta-Model for Vehicle Safety* by George Dekermenjian submitted to mathematics department at [Technical University of Munich](https://www.ma.tum.de/) in September 2020 in partial fulfillment of the Master of Science of Mathematics in Data Science.
 
 - TUM Advisor: [PD Peter Massopust, Ph.D.](https://www-m15.ma.tum.de/Allgemeines/PeterMassopust)
-- BMW Advisor: Jonas Jehle
+- Advising Ph.D. Candidate: Jonas Jehle [jonas.jehle@unibw.de](mailto:jonas.jehle@unibw.de)
 
 **NOTE: The code for this project is under consideration for open source release and is expected to clear this revision sometime in September 2020. Stay tuned!**
 
