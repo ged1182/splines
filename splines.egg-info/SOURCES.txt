@@ -1,0 +1,10 @@
+README.md
+setup.py
+splines/__init__.py
+splines/metrics.py
+splines/mv_spline.py
+splines/uv_spline.py
+splines.egg-info/PKG-INFO
+splines.egg-info/SOURCES.txt
+splines.egg-info/dependency_links.txt
+splines.egg-info/top_level.txt

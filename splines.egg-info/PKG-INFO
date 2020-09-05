@@ -1,0 +1,14 @@
+Metadata-Version: 1.2
+Name: splines
+Version: 0.1
+Summary: A package to do uni-variate and multi-variate free-knot spline regression.
+Home-page: https://github.com/ged1182/splines
+Author: George Dekermenjian
+Author-email: ged1182@gmail.com
+License: MIT License
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
