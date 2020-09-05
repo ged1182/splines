@@ -58,8 +58,8 @@ def b_spline_vector(x, u, k):
     compute the values of the B-splines of order k with interior knots u
     :param x: array of shape (n,) : the values at which to compute the B-splines
     :param u: array of shape (p,) : the interior knots
-    :param k: int : the order of the splines
-    :return: b: array of shape (n,k+p) : the values of the k+p splines at x
+    :param k: int : the order of the fk-splines
+    :return: b: array of shape (n,k+p) : the values of the k+p fk-splines at x
     """
     assert k >= 1 and (isinstance(k, int) or isinstance(k, np.int32), isinstance(k, np.int64))
 
@@ -142,7 +142,7 @@ def b_spline_vector_grad(x, u, k, freeze_knot_at_positions=None):
     :param u: array of shape (p,) : the interior knots
     :param k: int : the order of the spline
     :param freeze_knot_at_positions: array of shape (s,) : the positions of the knots that should be frozen (s<=p)
-    :return: du : array of shape (n,k+p,p) : the gradients values of the k+p splines at x
+    :return: du : array of shape (n,k+p,p) : the gradients values of the k+p fk-splines at x
     """
     assert k >= 2 and (isinstance(k, int) or isinstance(k, np.int32) or isinstance(k, np.int64))
     n = x.shape[0]
