@@ -26,47 +26,48 @@ I have tried to make the classes follow design patterns similar (but not exactly
 
 First we import the object:
 
-            from splines.regression import SplineRegression
+    from splines.regression import SplineRegression
 
 Initialize a `SplineRegression` object. The following code has the default values of the arguments.
 
 
-        s=SplineRegression(num_of_vars=2,
-                           orders=[2,2],
-                           knots=None,
-                           intervals=[(0,1),(0,1)],
-                           normalize=False)                     
+    s=SplineRegression(num_of_vars=2,
+                       orders=[2,2],
+                       knots=None,
+                       intervals=[(0,1),(0,1)],
+                       normalize=False)                     
 
 This initializes a bi-variate tensor-product `SplineRegression` object.
 
 To do uni-variate regression, using 4th order B-Splines, on the interval `(-2,2)`, adjust the values of the arguments accordingly:
 
-        s=SplineRegression(num_of_vars=1,
-                           orders=[4],
-                           intervals=[(-2,2)])
+    s=SplineRegression(num_of_vars=1,
+                       orders=[4],
+                       intervals=[(-2,2)])
 
 ### Visualize B(asis)-Splines
 
 Below, we are using the uni-variate `SplineRegressor` object defined above.
 
-        import matplotlib.pyplot as plt
-        import numpy as np    
-        x = np.linspace(-2, 2, 100).reshape(-1,1)
-        y = s.b_splines(x) # shape (100, 4) there are 4 B-splines (order + number of knots = 4 + 0 = 4)
-        plt.plot(x, y)
-        plt.show()        
+    import matplotlib.pyplot as plt
+    import numpy as np    
+    x = np.linspace(-2, 2, 100).reshape(-1,1)
+    y = s.b_splines(x) # shape (100, 4) there are 4 B-splines
+    # order + number of knots = 4 + 0 = 4
+    plt.plot(x, y)
+    plt.show()        
 
 ![visualize_splines.png](images/visualize_b_splines.png)
 
 A linear combination of these basis splines produces a spline, a piece-wise polynomial. To do this, we need to set the 4 coefficients.
 
-        s.coefficients = np.array([1,3,-2,4])
+    s.coefficients = np.array([1,3,-2,4])
 
 We can now compute and visualize the spline.
 
-        y_spline = s.predict(x)
-        plt.plot(x, y_spline)
-        plt.show()              
+    y_spline = s.predict(x)
+    plt.plot(x, y_spline)
+    plt.show()              
 
 ![visualize_spline.png](images/visualize_spline.png)
 
