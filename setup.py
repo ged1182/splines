@@ -1,7 +1,7 @@
 from setuptools import setup
 import setuptools
 setup(
-    name='fk-splines',
+    name='fksplines',
     version='0.1',
     packages=setuptools.find_packages(),
     url='https://github.com/ged1182/splines',
@@ -14,4 +14,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"],
     python_requires='>=3.8',
+    long_description='A package to do uni-variate and multi-variate free-knot spline regression.'
 )
