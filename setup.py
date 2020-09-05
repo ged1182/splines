@@ -2,7 +2,7 @@ from setuptools import setup
 import setuptools
 setup(
     name='fksplines',
-    version='0.3',
+    version='0.5',
     packages=setuptools.find_packages(),
     url='https://github.com/ged1182/splines',
     license='MIT License',

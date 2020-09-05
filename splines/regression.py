@@ -155,7 +155,8 @@ class SplineRegression:
     @coefficients.setter
     def coefficients(self, coefficients):
         assert isinstance(coefficients, np.ndarray)
-        assert coefficients.shape == np.product(self.__orders + self.__knots_lengths)
+        p = 0 if self.__knots_lengths is None else np.array(self.__knots_lengths, dtype=np.int)
+        assert coefficients.shape == np.product(np.array(self.__orders, dtype=np.int) + p)
         assert coefficients.dtype == np.float
         self.__coefficients = coefficients
 
