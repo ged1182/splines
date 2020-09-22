@@ -10,7 +10,7 @@ Coming Soon:
 
 ## Installation
 Requirements
- - `python>=3.8`
+-  `python>=3.7`
  - `numpy>=1.18.5`
  - `tqdm>=4.48.2`
  - `scikit-learn>=0.23.1`
@@ -33,9 +33,7 @@ Initialize a `SplineRegression` object. The following code has the default value
 
     s=SplineRegression(num_of_vars=2,
                        orders=[2,2],
-                       knots=None,
-                       intervals=[(0,1),(0,1)],
-                       normalize=False)                     
+                       intervals=[(0,1),(0,1)])                     
 
 This initializes a bi-variate tensor-product `SplineRegression` object.
 

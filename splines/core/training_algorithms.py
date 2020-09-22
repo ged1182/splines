@@ -2,6 +2,7 @@ import numpy as np
 from ..metrics import mse, mse_grad
 from .mv_splines import mv_b_spline_vector, mv_spline_grad
 from tqdm import trange
+from scipy.sparse import coo_matrix
 
 
 def fit_spline(x_train, y_train,
@@ -27,14 +28,14 @@ def fit_spline(x_train, y_train,
         u = [np.array([i / (p_ + 1) for i in range(1, p_ + 1)]) for p_ in p]
     else:
         if not(knot_init is None):
-            u = knot_init if num_of_vars > 1 else [knot_init]
+            u = knot_init #if num_of_vars > 1 else [knot_init]
 
     u_history = {d+1: [np.array(u[d], dtype='float')] for d in range(num_of_vars)}
 
     b_splines_train = mv_b_spline_vector(x_train.reshape(-1, 1), u, k) if num_of_vars == 1 \
         else mv_b_spline_vector(x_train, u, k)
 
-    regressor.fit(b_splines_train, y_train)
+    regressor.fit(coo_matrix(b_splines_train), y_train)
     c = regressor.coef_
     c_history = [c]
     y_train_hat = regressor.predict(b_splines_train)
@@ -71,7 +72,7 @@ def fit_spline(x_train, y_train,
             y = y_train[idx]
             basis_splines = mv_b_spline_vector(x.reshape(-1, 1), u, k) if num_of_vars == 1\
                 else mv_b_spline_vector(x, u, k)
-            regressor.fit(basis_splines, y)
+            regressor.fit(coo_matrix(basis_splines), y)
             c = regressor.coef_
             y_hat = regressor.predict(basis_splines)
             dy = mv_spline_grad(x.reshape(-1, 1), u, k, c) if num_of_vars == 1\
@@ -82,7 +83,7 @@ def fit_spline(x_train, y_train,
 
         b_splines_train = mv_b_spline_vector(x_train.reshape(-1, 1), u, k) if num_of_vars == 1\
             else mv_b_spline_vector(x_train, u, k)
-        regressor.fit(b_splines_train, y_train)
+        regressor.fit(coo_matrix(b_splines_train), y_train)
         c = regressor.coef_
         b_splines_val = mv_b_spline_vector(x_val.reshape(-1, 1), u, k) if num_of_vars == 1\
             else mv_b_spline_vector(x_val, u, k)
@@ -110,6 +111,6 @@ def fit_spline(x_train, y_train,
         b_splines_train = mv_b_spline_vector(x_train.reshape(-1, 1), u_best, k) if num_of_vars == 1 \
             else mv_b_spline_vector(x_train, u_best, k)
 
-        regressor.fit(b_splines_train, y_train)
+        regressor.fit(coo_matrix(b_splines_train), y_train)
 
     return best_index, regressor, history

@@ -11,21 +11,20 @@ NO_HISTORY_MESSAGE = 'There is no history. Please train using the `fit` method w
 
 class SplineRegression:
 
-    def __init__(self, num_of_vars=2, orders=None, intervals=((0, 1), (0, 1)), knots=None, alpha=None,
-                 normalize=False):
+    def __init__(self, num_of_vars=2, orders=None, intervals=((0, 1), (0, 1)), alpha=None):
         assert num_of_vars == len(orders) == len(intervals)
         if orders is None:
             orders = [2, 2]
         self.__num_of_vars = num_of_vars
         self.__orders = orders
         self.__intervals = intervals
-        self.__knots = None if knots is None else np.array(list(map(np.array, knots)))
+        # self.__knots = None if knots is None else np.array(list(map(np.array, knots)))
         self.__alpha = alpha
-        self.__normalize = normalize
+        # self.__normalize = normalize
 
         self.__input_scaler = MinMaxScaler()
         self.__input_scaler.fit(np.array(intervals).T)
-        self.__output_scaler = StandardScaler()
+        # self.__output_scaler = StandardScaler()
 
         self.__knots_lengths = None if self.__knots is None else np.array(list(map(len, self.__knots)))
         self.__knots_scaled = self.__scale_knots()
@@ -54,7 +53,7 @@ class SplineRegression:
             )
 
             knots_padded_ = self.__input_scaler.transform(knots_padded_.T).T
-            return np.array([u[~np.isnan(u)] for u in knots_padded_])
+            return np.array([u[~np.isnan(u)] for u in knots_padded_], dtype=np.object)
 
     def __inverse_scale_knots(self):
         if self.__knots_scaled is None:
@@ -245,25 +244,18 @@ class SplineRegression:
         x_train_scaled = self.__input_scaler.transform(x_train)
         x_val_scaled = self.__input_scaler.transform(x_val)
 
-        y_all = np.concatenate([y_train, y_val], axis=-1).reshape(-1, 1)
-
-        if self.__normalize:
-            y_all = self.__output_scaler.fit_transform(y_all)
-        y_train_scaled = y_all[:y_train.shape[0]].reshape(-1, )
-        y_val_scaled = y_all[y_train.shape[0]:].reshape(-1, )
-
         if not optimize_knots:
 
             b_splines_train = self.b_splines(x_train)
 
-            self.regressor.fit(b_splines_train, y_train_scaled)
+            self.regressor.fit(b_splines_train, y_train)
             self.__coefficients = self.regressor.coef_
         else:
             assert (optimizer in ['SGD', 'ADAM'])
             opt = SGD(lr=lr, lr_decay_rate=lr_decay_rate, lr_decay_every=lr_decay_every) if optimizer == 'SGD' \
                 else Adam(p=num_of_knots, lr=lr, lr_decay_rate=lr_decay_rate, lr_decay_every=lr_decay_every)
-            self.__best_index_of_fit, self.regressor, self.__fit_history = fit_spline(x_train_scaled, y_train_scaled,
-                                                                                      x_val_scaled, y_val_scaled,
+            self.__best_index_of_fit, self.regressor, self.__fit_history = fit_spline(x_train_scaled, y_train,
+                                                                                      x_val_scaled, y_val,
                                                                                       regressor=self.regressor,
                                                                                       optimizer=opt,
                                                                                       knot_init=self.__knots_scaled,
@@ -284,8 +276,7 @@ class SplineRegression:
         assert (metrics is None) or metrics == 'All' or len(set(metrics).intersection(set(METRICS.keys()))) > 0
 
         y_hat = mv_spline(x_scaled, self.__knots_scaled, self.__orders, self.__coefficients)
-        if self.__normalize:
-            y_hat = self.__output_scaler.inverse_transform(y_hat.reshape(-1, 1)).reshape(-1, )
+
         if not (metrics is None) and not (y is None):
             if metrics == 'All':
                 metrics_ = {m: METRICS[m](y, y_hat) for m in METRICS.keys()}
@@ -309,9 +300,5 @@ class SplineRegression:
         """
 
         x_scaled = self.__input_scaler.transform(x)
-        y_scaled = mv_b_spline_vector(x_scaled, self.__knots_scaled, self.__orders)
-        if self.__normalize:
-            y = self.__output_scaler.inverse_transform(y_scaled)
-        else:
-            y = y_scaled
+        y = mv_b_spline_vector(x_scaled, self.__knots_scaled, self.__orders)
         return y
